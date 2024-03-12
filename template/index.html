@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Style Transformation</title>
+    <!--<link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to right, #56CCF2, #2F80ED);
+    overflow: hidden;
+    background: #111111; /* Change the background color to a darker shade */
+}
+ 
+.form-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    transition: transform 0.3s ease-in-out;
+    margin: 0 auto; /* Centers the form horizontally */
+    margin-left: 20px; /* Adjust this value to move the form towards the left */
+}
+ 
+ 
+.form-container.active {
+    transform: scale(1.02);
+}
+ 
+form {
+    display: flex;
+    flex-direction: column;
+}
+ 
+label {
+    font-weight: 600;
+    margin: 15px 0 5px;
+    color: #f92d34;
+}
+ 
+input[type="file"],
+input[type="text"],
+input[type="number"],
+button {
+    padding: 15px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 2px solid #e1e1e1;
+    width: 100%;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+ 
+input[type="file"]::file-selector-button,
+button {
+    cursor: pointer;
+}
+ 
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+ 
+button {
+    background-color: #f92d34;
+    color: white;
+    border: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+ 
+button:hover {
+    background-color: #f92d34c8;
+}
+ 
+input[type="file"]::file-selector-button {
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #f92d34;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+ 
+input[type="file"]::file-selector-button:hover {
+    background-color: #f92d34c8;
+}
+ 
+/* Additional styles for responsiveness */
+@media (max-width: 600px) {
+    .form-container {
+        max-width: 100%;
+    }
+}
+ 
+ 
+ 
+/* Add this CSS code to your existing styles.css file */
+ 
+.gradient-text {
+    background-color: rgb(255, 255, 255); /* Fallback color */
+    background-image: linear-gradient(45deg, #fff, #fff, #fff); /* Gradient colors */
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+}
+ 
+    </style>
+</head>
+<body>
+    <div class="form-container" id="formContainer">
+        <form id="imageStyleForm" action="/submit" method="post" enctype="multipart/form-data" onsubmit="showAlert()">
+            <label class="gradient-text" for="imageUpload">Upload your image:</label>
+            <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required>
+           
+            <label class="gradient-text" for="styleDescription">Style description:</label>
+            <input type="text" id="styleDescription" name="styleDescription" class="gradient-text" placeholder="Prompt..." required>
+           
+            <label class="gradient-text" for="strength">Strength (0.0 - 1.0):</label>
+            <input type="range" id="strength" name="strength" min="0.0" max="1.0" step="0.01" value="0.40" required>
+            <span class="gradient-text" id="strengthValue">0.40</span>
+           
+            <label class="gradient-text" for="guidanceScale">Guidance Scale:</label>
+            <input type="range" id="guidanceScale" name="guidanceScale" min="1" max="100" step="0.1" value="7.90" required>
+            <span class="gradient-text" id="guidanceScaleValue">7.90</span>
+           
+            <label class="gradient-text" for="numInferenceSteps">Number of Inference Steps:</label>
+            <input type="range" id="numInferenceSteps" name="numInferenceSteps" min="1" max="1000" value="50" required>
+            <span class="gradient-text" id="numInferenceStepsValue">50</span>
+           
+            <button type="submit">Transform Image</button>
+        </form>
+    </div>
+ 
+    <script>
+        // JavaScript for interactivity
+        const formContainer = document.getElementById('formContainer');
+        const imageStyleForm = document.getElementById('imageStyleForm');
+ 
+        imageStyleForm.addEventListener('focusin', () => {
+            formContainer.classList.add('active');
+        });
+ 
+        imageStyleForm.addEventListener('focusout', () => {
+            formContainer.classList.remove('active');
+        });
+ 
+        // Display range slider values
+        document.getElementById('strength').addEventListener('input', function() {
+            document.getElementById('strengthValue').textContent = this.value;
+        });
+ 
+        document.getElementById('guidanceScale').addEventListener('input', function() {
+            document.getElementById('guidanceScaleValue').textContent = this.value;
+        });
+ 
+        document.getElementById('numInferenceSteps').addEventListener('input', function() {
+            document.getElementById('numInferenceStepsValue').textContent = this.value;
+        });
+ 
+        function showAlert() {
+            alert('Form submitted!');
+        }
+    </script>
+</body>
+</html>
+ 
